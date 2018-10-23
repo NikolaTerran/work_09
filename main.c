@@ -2,24 +2,27 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <string.h>
 int main(){
   printf("demo open:******************************************\n\n");
   int filedesc = open("testfile.txt", O_RDWR);
     
   printf("demo read:******************************************\n\n");
-  char filechars[100];
-  read(filedesc, filechars, 100);
+  char filechars[1000];  //determine how many bytes to put into buffer
+  read(filedesc, filechars,1000);
+  
+  printf("******print buffer\n");
   int i=0;
   while(filechars[i]){
     printf("%c", filechars[i]);
     i++;
-  }
+  }	
+  printf("\n");
   
-  printf("demo write:*****************************************\n\n");
-  printf("%d", write(filedesc, "12345678910", 10));
+  printf("demo write/close:*****************************************\n\n");
+  printf("******write return: %d\n",   write(filedesc, "spam\n", 5)); //the byte written by write must be declared precisely
+  close(filedesc);
   
-  printf("demo close:*****************************************\n\n");
-
   return 0;
 }
 
